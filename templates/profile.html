@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <style>
+        .transactions-table {
+            width: 100%;
+            margin-bottom: 0; 
+        }
+        .transactions-table th, .transactions-table td {
+            padding: 8px;
+            text-align: left;
+        }
+        
+        .transactions-table th {
+            font-size: 20px;
+        }
+        .transactions-table td {
+            font-size: 15px;
+        }
+        .half-width {
+            padding: 0 15px;
+        
+            
+        }
+    </style>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mt-5">
+                    <div class="card-header">
+                        <h2 class="text-center">Your Profile</h2>
+
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-center">Welcome, {{ user.username }}</h4>
+                        <p class="text-center">Your balance is {{ user_currency.currency }} {{ user_currency.currency_type }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 half-width">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center p-4">Sent Transfers</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table transactions-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">To</th>
+                                <th scope="col">Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transfer in sent_transfers %}
+                                <tr>
+                                    <td>{{ transfer.date }}</td>
+                                    <td>{{ transfer.recipient.username }}</td>
+                                    <td>{{ transfer.transfer_amount }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="3" class="text-center">No sent transfers found.</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 half-width">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center p-4">Received Transfers</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table transactions-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">From</th>
+                                <th scope="col">Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transfer in received_transfers %}
+                                <tr>
+                                    <td>{{ transfer.date }}</td>
+                                    <td>{{ transfer.sender.username }}</td>
+                                    <td>{{ transfer.transfer_amount }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="3" class="text-center">No received transfers found.</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

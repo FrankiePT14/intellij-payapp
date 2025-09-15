@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags %}
+{% load static %}
+{% block content %}
+    <style>
+    .transactions-table {
+        width: 100%;
+        margin-bottom: 0;
+    }
+    .transactions-table th, .transactions-table td {
+        padding: 8px;
+        text-align: left;
+    }
+
+    .transactions-table th {
+        font-size: 20px;
+    }
+    .transactions-table td {
+        font-size: 15px;
+    }
+    
+    
+</style>
+
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h1 class="text-center p-4">All Transactions</h1>
+                    </div>
+                    <div class="card-body">
+                        <table class="table transactions-table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Date</th>
+                                <th scope="col">Sender</th>
+                                <th scope="col">Recipient</th>
+                                <th scope="col">Amount</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for transfer in all_sent_transfers %}
+                                <tr>
+                                    <td>{{ transfer.date }}</td>
+                                    <td>{{ transfer.sender.username }}</td>
+                                    <td>{{ transfer.recipient.username }}</td>
+                                    <td>{{ transfer.transfer_amount }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr><td colspan="4" class="text-center">No transactions found.</td></tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
